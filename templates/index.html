@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>ACADEMIA DE DADOS FITNESS</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏋️‍♂️</text></svg>">
+    <style>
+        body { font-family: Arial, sans-serif; 
+    margin: 40px; 
+    background: linear-gradient(rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.10)), url("/static/fundo.png"), url("/static/fundo.PNG"), url("/static/fundo.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;         
+    background-position: right bottom; 
+    background-attachment: fixed;
+    }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 30px; background-color: #fff; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #a72828; color: white; }
+        form { margin-bottom: 20px; padding: 20px; border: 1px solid #ccc; width: 100%; max-width: 500px; background-color: #fff; box-sizing: border-box; }
+        .busca-form { border: none; background: transparent; padding: 0; margin-bottom: 10px; }
+        .busca-form input[type=text] { width: 70%; display: inline-block; }
+        .busca-form input[type=submit] { width: 25%; display: inline-block; margin-left: 10px; background-color: #757575; color: white; border: none; cursor: pointer; }
+        input[type=text], input[type=submit], select { width: 100%; padding: 8px; margin: 8px 0; box-sizing: border-box; }
+        input[type=submit] { background-color: #757575; color: white; border: none; font-weight: bold; cursor: pointer; }
+        input[type=submit]:hover { background-color: #414141; }
+        
+        /* ABAS */
+        .tab-container { display: flex; margin-bottom: 20px; border-bottom: 2px solid #ccc; margin-top: 35px; }
+        .tab-button { background-color: #e7e7e7; border: none; outline: none; cursor: pointer; padding: 14px 20px; font-size: 16px; font-weight: bold; transition: 0.3s; margin-right: 4px; border-radius: 5px 5px 0 0; }
+        .tab-button:hover { background-color: #ddd; }
+        .tab-button.active { background-color: #a72828; color: white; }
+        .tab-content { display: none; padding: 6px 12px; }
+
+        
+    </style>
+</head>
+<body>
+
+    <h1>🏋️‍♂️ ACADEMIA DE DADOS FITNESS</h1>
+
+    <div class="tab-container">
+        <button class="tab-button" onclick="openTab(event, 'cadastro_aluno')" id="defaultTab">Cadastramento</button>
+        <button class="tab-button" onclick="openTab(event, 'consultas')">Consultas</button>
+        <button class="tab-button" onclick="openTab(event, 'cadastro_acesso')">Acesso</button>
+    </div>
+
+    <div id="cadastro_aluno" class="tab-content">
+        <form action="/inserir_aluno" method="POST">
+            <h3>Novo Aluno</h3>
+            
+            <label for="nome">Nome Completo:</label>
+            <input type="text" id="nome" name="nome" placeholder="Ex: Pedro Almeida" required>
+
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" placeholder="Ex: 123.456.789-10" required>
+
+            <label for="telefone">Telefone:</label>
+            <input type="text" id="telefone" name="telefone" placeholder="Ex: (31) 99999-8888">
+
+            <label for="id_plano">Plano:</label>
+            <select id="id_plano" name="id_plano" required>
+                <option value="">-- Selecione um Plano --</option>
+                {% for plano in planos %}
+                    <option value="{{ plano['ID_Plano'] }}">{{ plano['Nome_Plano'] }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="cref_personal">Personal Trainer (Opcional):</label>
+            <select id="cref_personal" name="cref_personal">
+                <option value="">Nenhum</option>
+                {% for p in todos_personais %}
+                    <option value="{{ p['CREF'] }}">{{ p['Nome'] }}</option>
+                {% endfor %}
+            </select>
+
+            <label style="display: block; margin-top: 12px; font-weight: bold;">Treino(s):</label>
+            <div style="max-height: 120px; overflow-y: auto; border: 1px solid #ccc; padding: 8px; margin-top: 6px; margin-bottom: 12px; background: #fff;">
+                {% for treino in todos_treinos %}
+                    <div style="margin-bottom: 6px; display: flex; align-items: center;">
+                        <input type="checkbox" id="treino_{{ treino['ID_Treino'] }}" name="treinos" value="{{ treino['ID_Treino'] }}" style="width: auto; margin: 0 8px 0 0;">
+                        <label for="treino_{{ treino['ID_Treino'] }}" style="font-size: 14px; cursor: pointer;">{{ treino['Nome'] }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <input type="submit" value="Cadastrar Aluno">
+        </form>
+    </div>
+
+    <div id="consultas" class="tab-content">
+        <h2>Alunos Cadastrados</h2>
+        <form method="GET" action="/" class="busca-form">
+            <input type="text" name="busca_aluno" placeholder="Pesquisar aluno por nome..." value="{{ busca_aluno }}">
+            <input type="submit" value="Buscar">
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Matrícula</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Telefone</th>
+                    <th>Plano</th>
+                    <th>Personal Associado</th>
+                    <th>Objetivo do Treino</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aluno in alunos %}
+                <tr>
+                    <td>{{ aluno['Matricula'] }}</td>
+                    <td>{{ aluno['Nome'] }}</td>
+                    <td>{{ aluno['CPF'] }}</td>
+                    <td>{{ aluno['Telefone'] if aluno['Telefone'] else 'Não informado' }}</td>
+                    <td>{{ aluno['Nome_Plano'] if aluno['Nome_Plano'] else 'Sem Plano' }}</td>
+                    <td>{{ aluno['Nome_Personal'] if aluno['Nome_Personal'] else 'Sem Personal' }}</td>
+                    <td><strong>{{ aluno['Objetivo_Treino'] if aluno['Objetivo_Treino'] else 'Nenhum treino associado' }}</strong></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7">Nenhum aluno encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Personal Trainers</h2>
+        <form method="GET" action="/" class="busca-form">
+            <input type="text" name="busca_personal" placeholder="Pesquisar personal por nome..." value="{{ busca_personal }}">
+            <input type="submit" value="Buscar">
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>CREF</th>
+                    <th>Nome do Personal</th>
+                    <th>Telefone</th>
+                    <th>Especialidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for personal in personais %}
+                <tr>
+                    <td>{{ personal['CREF'] }}</td>
+                    <td>{{ personal['Nome'] }}</td>
+                    <td>{{ personal['Telefone'] }}</td>
+                    <td><strong>{{ personal['Especialidade'] }}</strong></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">Nenhum personal encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="cadastro_acesso" class="tab-content">
+    <form action="/inserir_acesso" method="POST">
+        <h3>Registrar Entrada de Aluno (Acesso)</h3>
+        <p style="color: #666; font-size: 14px;">A data e a hora serão registradas automaticamente no momento do clique.</p>
+        
+        <label for="matricula">Selecione o Aluno:</label>
+        <select id="matricula" name="matricula" required>
+            <option value="" disabled selected>-- Escolha o Aluno --</option>
+            {% for al in todos_alunos %}
+                <option value="{{ al['Matricula'] }}">(ID: {{ al['Matricula'] }}) - {{ al['Nome'] }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="Registrar Entrada" class="btn-registrar">
+    </form>
+
+        <h2>Últimos Acessos Registrados</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Cód. Acesso</th>
+                    <th>Nome do Aluno</th>
+                    <th>Data</th>
+                    <th>Hora da Entrada</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for acesso in historico_acessos %}
+                <tr>
+                    <td>{{ acesso['ID_Acesso'] }}</td>
+                    <td>{{ acesso['Nome_Aluno'] }}</td>
+                    <td>{{ acesso['Data_Formatada'] }}</td>
+                    <td><strong>{{ acesso['Hora_Acesso'] }}</strong></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">Nenhum acesso registrado ainda.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tabbuttons;
+            
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            
+            tabbuttons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+            }
+            
+            document.getElementById(tabName).style.display = "block";
+            if (evt) {
+                evt.currentTarget.className += " active";
+            } else {
+                document.querySelector(`button[onclick*='${tabName}']`).className += " active";
+            }
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const activeTabParam = urlParams.get('tab');
+        
+        if (activeTabParam) {
+            openTab(null, activeTabParam);
+        } else if ("{{ busca_aluno }}" !== "" || "{{ busca_personal }}" !== "") {
+            openTab(null, 'consultas');
+        } else {
+            document.getElementById("defaultTab").click();
+        }
+    </script>
+</body>
+</html>
