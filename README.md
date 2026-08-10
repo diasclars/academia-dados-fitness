@@ -1,11 +1,24 @@
-**Academia de Dados Fitness**
-## Sistema de gerenciamento de uma academia com o objetivo de organizar e otimizar o controle operacional.
+# Academia de Dados Fitness
 
-# **Descrição do Projeto**
-# O Academia de Dados Fitness é um sistema de banco de dados relacional desenvolvido para automatizar, organizar e integrar o gerenciamento de uma academia. A finalidade principal é substituir controles manuais por uma base unificada e consistente, permitindo o acompanhamento do vínculo de alunos a planos de matrícula, treinos por personal e o registro em tempo real de acessos (check-ins) na unidade.
+> **Sistema de Gerenciamento de Academia**  
+> Um sistema de banco de dados relacional desenvolvido para automatizar, organizar e otimizar o controle operacional de academias.
 
-# **Funcionalidades**
-# •Cadastramento dos alunos
-# •Consulta de alunos e personal
-# •Treinos disponíveis
-# •Check-in de entrada 
+---
+
+## Descrição do Projeto
+
+O **Academia de Dados Fitness** é um sistema de banco de dados relacional projetado para integrar e centralizar o gerenciamento operacional de uma academia de ginástica. 
+
+Seu objetivo principal é substituir controles manuais e planilhas descentralizadas por uma base unificada, segura e consistente. O sistema otimiza o fluxo de informações do estabelecimento, permitindo o acompanhamento do vínculo de alunos a planos de matrícula, a prescrição e acompanhamento de treinos por personal trainers e o registro em tempo real dos acessos e check-ins na unidade.
+
+---
+
+## Funcionalidades
+
+- Cadastramento de Alunos
+- Consulta de Alunos e Personal
+- Gerenciamento de Treinos
+- Check-in de Entrada
+   ```bash
+   git clone [https://github.com/seu-usuario/academia-dados-fitness.git](https://github.com/seu-usuario/academia-dados-fitness.git)
+   cd academia-dados-fitness
