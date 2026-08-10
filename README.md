@@ -1,5 +1,5 @@
 **Academia de Dados Fitness**
-# Sistema de gerenciamento de uma academia com o objetivo de organizar e otimizar o controle operacional.
+## Sistema de gerenciamento de uma academia com o objetivo de organizar e otimizar o controle operacional.
 
 # **Descrição do Projeto**
 # O Academia de Dados Fitness é um sistema de banco de dados relacional desenvolvido para automatizar, organizar e integrar o gerenciamento de uma academia. A finalidade principal é substituir controles manuais por uma base unificada e consistente, permitindo o acompanhamento do vínculo de alunos a planos de matrícula, treinos por personal e o registro em tempo real de acessos (check-ins) na unidade.
