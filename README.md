@@ -1,7 +1,7 @@
 # Academia de Dados Fitness
 
-> **Sistema de Gerenciamento de Academia**  
-> Um sistema de banco de dados relacional desenvolvido para automatizar, organizar e otimizar o controle operacional de academias.
+**Sistema de Gerenciamento de Academia**  
+Um sistema de banco de dados relacional desenvolvido para automatizar, organizar e otimizar o controle operacional de academias.
 
 ---
 
@@ -19,6 +19,3 @@ Seu objetivo principal é substituir controles manuais e planilhas descentraliza
 - Consulta de Alunos e Personal
 - Gerenciamento de Treinos
 - Check-in de Entrada
-   ```bash
-   git clone [https://github.com/seu-usuario/academia-dados-fitness.git](https://github.com/seu-usuario/academia-dados-fitness.git)
-   cd academia-dados-fitness
